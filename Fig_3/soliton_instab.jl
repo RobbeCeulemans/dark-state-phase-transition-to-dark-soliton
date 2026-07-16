@@ -1,5 +1,6 @@
-using PyPlot, PyCall, MAT, DelimitedFiles
+using PyPlot, PyCall, DelimitedFiles
 gspec=pyimport("matplotlib.gridspec")
+pyimport("matplotlib.colors")
 #########################################################################################
 # Settings
 #########################################################################################
@@ -11,33 +12,27 @@ PyPlot.rc("ytick", labelsize=8, left=true, right=true, direction="in")
 PyPlot.rc("xtick", labelsize=8, top=true, bottom=true, direction="in")
 PyPlot.rc("font", family="Helvetica", size=10)
 PyPlot.rc("lines",linewidth=1.0,markersize=3)
-
+cm=1/2.54
 
 #########################################################################################
 # Article Fig: Real time phase
 #########################################################################################
-pyimport("matplotlib.colors")
-
-
-dir="./Fig_3/data_soliton_dynamcis/"
+dir1=joinpath(@__DIR__,"data_soliton_dynamics/")
 custom_cmap = matplotlib.colors.LinearSegmentedColormap.from_list("custom",[(88, 0, 0)./255, (165, 77, 21)./255, (237, 197, 141)./255, (255, 255, 224)./255, (185, 214, 199)./255, (41, 120, 120)./255, (0, 50, 51)./255])
 Data=Vector{Matrix{Float64}}(undef,3)
 lbls=["phase","spacegrid","timegrid"]
 for i ∈ eachindex(lbls)
-    f = readdlm(dir*"Fig3c_"*lbls[i]*"1.txt") 
+    f = readdlm(dir1*"Fig3c_"*lbls[i]*"1.txt") 
     Data[i]=f
 end
 
-cm=1/2.54
 spec=gspec.GridSpec(nrows=2,ncols=1,hspace=0.11)
 fig=figure(figsize=(0.46*8.6*cm,0.775*8.6*cm))
 ax1=fig.add_subplot(spec[2])
 pax=ax1.pcolormesh(Data[2][:,1].-51,Data[3][:,1],Data[1]',cmap=custom_cmap,vmin=-pi,vmax=pi,shading="gouraud")
 ax1.plot([-40,40],[7.05,7.05],"k:",linewidth=1.25)
-ax1.set_ylabel(L"$\omega_r t$",labelpad=0.15); #ax1.yaxis.tick_right()
-#ax1.yaxis.set_label_position("right")
-ax1.set_xlim([-40,40]); #ax1.set_xticklabels([])
-#ax1.text(0.1, 0.83, L"$\rm{(b)}$", fontsize=10, horizontalalignment="center", verticalalignment="center", transform=ax1.transAxes)
+ax1.set_ylabel(L"$\omega_r t$",labelpad=0.15)
+ax1.set_xlim([-40,40])
 ax1.text(0.05, 0.8, L"$\rm{(b)~decay}$", fontsize=10,  bbox=Dict(
         "facecolor" => "white",  # Background color
         "edgecolor" => "none",  # Border color (optional)
@@ -45,79 +40,46 @@ ax1.text(0.05, 0.8, L"$\rm{(b)~decay}$", fontsize=10,  bbox=Dict(
         "alpha"     => 0.4              # Transparency
     ), transform=ax1.transAxes)
 
-dir="/Fig_3/soliton_attractor/"
+dir2=joinpath(@__DIR__,"soliton_attractor/")
 Data=Vector{Matrix{Float64}}(undef,3)
 lbls=["phase","spacegrid_traj","timegrid"]
 for i ∈ eachindex(lbls)
-    f = readdlm(dir*"Fig3c_"*lbls[i]*"10.txt") 
+    f = readdlm(dir2*"Fig3c_"*lbls[i]*"10.txt")
     Data[i]=f
 end
 
 ax2=fig.add_subplot(spec[1])
 pax=ax2.pcolormesh(Data[2][:,1].-51,Data[3][:,1],Data[1]',cmap=custom_cmap,vmin=-pi,vmax=pi,shading="gouraud")
 ax1.set_xlabel(L"$\mathrm{site}~j$",labelpad=0.15);
-ax2.set_ylabel(L"$\omega_r t$",labelpad=0.1); #ax2.yaxis.tick_right()
-#ax2.text(0.185, 0.785, L"$\rm{(a)}$", fontsize=10, horizontalalignment="center", verticalalignment="center", transform=ax2.transAxes)
+ax2.set_ylabel(L"$\omega_r t$",labelpad=0.1)
 ax2.text(0.05, 0.8, L"$\rm{(a)~formation}$", fontsize=10,  bbox=Dict(
         "facecolor" => "white",  # Background color
         "edgecolor" => "none",  # Border color (optional)
         "boxstyle"  => "round,pad=0.15",  # Rounded box with padding
         "alpha"     => 0.4              # Transparency
     ), transform=ax2.transAxes)
-#ax2.yaxis.set_label_position("right")
 ax2.set_xlim([-40,40]); ax2.set_ylim([0,80]); ax2.set_xticklabels([])
 ax2.set_yticks([0,30,60])
 cbar=colorbar(pax,ax=[ax1,ax2],ticks=[-pi,0,pi],drawedges=false,orientation="horizontal",location="top",pad=0.025)
 cbar.ax.set_xticklabels([L"$-\pi$",L"$0$",L"$\pi$"],fontsize=8)
 cbar.set_label(L"$\Phi_j - \overline{\Phi}$",labelpad=1,fontsize=10)
 cbar.outline.set_visible(false)
-display(fig); #fig.savefig("Spatial_Phase_Profile.pdf",format="pdf",bbox_inches="tight")
-
-
-#########################################################################################
-# Article Fig: Relaxation times
-#########################################################################################
-dir="D:\\Storage\\Publicaties_Posters_Presentaties\\Dissertation\\Data\\Chapter8\\Data_LiouvGap\\Data_Sam\\"
-lbls=["xdata","ydata","yerr"]; Jv=[0.4,0.5,0.6]; mrkrs=["o","^","s"]; ffset=[0.05,-0.2,-0.4]
-clrs=[(88,0,0)./255,(165,77,21)./255,(237,197,141)./255]
-PyPlot.rc("ytick", labelsize=9, left=true, right=true, direction="in")
-PyPlot.rc("xtick", labelsize=9, top=true, bottom=true, direction="in")
-cm=1/2.54
-fig,ax=subplots(figsize=(0.725*8.6cm,0.55*8.6cm))
-for j in eachindex(Jv)
-    data=Vector{Vector{Float64}}(undef,3)
-    for i in eachindex(lbls)
-        f = open(dir*"Fig3d_J="*string(Jv[j])*"_"*lbls[i]*".txt") do f
-            readlines(f) |> (s->parse.(Float64, s))
-        end
-        data[i]=f
-    end
-    ax.errorbar(data[1],data[2],yerr=data[3],marker=mrkrs[j],fmt=" ",
-        capsize=3,color=clrs[j])
-end
-ax.set_yscale("log"); ax.set_ylim([0.35,80]); ax.set_xlim([0,0.7])
-ax.set_xlabel(L"$\gamma/J$"); ax.set_ylabel(L"$\Delta t_r(\omega_r^{-1})$")
-ax.legend([L"$0.4$",L"$0.5$",L"$0.6$"],title=L"$J/\hbar\omega_r$",ncol=2,
-    handletextpad=0.05,columnspacing=0.5,frameon=false,fontsize=9)
-ax.plot([0,0.85],10 .^(2.7*[0,0.85]).- 0.45,"--",color=clrs[3])
-display(fig); fig.savefig("RelaxationTime.pdf",format="pdf",bbox_inches="tight")
+display(fig); fig.savefig("Spatial_Phase_Profile.pdf",format="pdf",bbox_inches="tight")
 
 #########################################################################################
 # Article Fig: Oscillatory instability
 #########################################################################################
-dir="D:\\Storage\\Publicaties_Posters_Presentaties\\Dissertation\\Data\\Chapter8\\Data_LiouvGap\\Data_Sam\\"
 Data_a=Vector{Matrix{Float64}}(undef,4); clr1=(148, 60, 14)./255; clr2=(41,120,120)./255
 Data_b=Vector{Matrix{Float64}}(undef,4)
 lbls_a=["Phase_times","Phase","Density_times","Density"]
 lbls_b=["j=1_Current_times","j=1_Current","j=-1_Current_times","j=-1_Current"]
 for i ∈ eachindex(lbls_a)
-    f = readdlm(dir*"Fig3a_"*lbls_a[i]*".txt") 
+    f = readdlm(dir1*"Fig3a_"*lbls_a[i]*".txt") 
     Data_a[i]=f
-    g = readdlm(dir*"Fig3b_"*lbls_b[i]*".txt")
+    g = readdlm(dir1*"Fig3b_"*lbls_b[i]*".txt")
     Data_b[i]=g
 end
 
-cm=1/2.54
 PyPlot.rc("lines",linewidth=0.9,markersize=3)
 spec=gspec.GridSpec(nrows=2,ncols=1,hspace=0.125)
 fig=figure(figsize=(0.54*8.6*cm,0.6*8.6*cm))
@@ -148,20 +110,27 @@ axR2.legend(ncol=2,frameon=true,handlelength=1.0,fontsize=7.5,handletextpad=0.2,
 display(fig); fig.savefig("Relaxation.pdf",format="pdf",bbox_inches="tight")
 
 #########################################################################################
-# Article Fig: Initial Dynamics
+# Article Fig: Relaxation times
 #########################################################################################
-dir="C:\\Users\\robbe\\Documents\\Driven_Disp_BEC\\3Dimensional\\output_files\\"
-name="A2D_SolRelax_G20J1_E.mat"; mirror=false
-
-vars=matread(dir*name);
-Nₓ=vars["Nx"]; Nʸ=vars["Ny"]; Sx=Nₓ+1; Sy=Nʸ+1; Pcut=vars["Pcut"]
-nn=vars["nn"]; mirror ? (cz=0) : (cz=1)
-tObs=vars["tObs"]
-
-iS=3
-Ct=vars["Ct"][cz*Sx+1:(cz+1)*Sx,:,:,iS]; #nsim_E=size(Cend_E,3); 
-CNt=dropdims(sum(abs2.(Ct),dims=(1,2)),dims=(1,2))
-
-fig,ax=subplots()
-ax.plot(tObs,CNt)
-display(fig)
+lbls=["xdata","ydata","yerr"]; Jv=[0.4,0.5,0.6]; mrkrs=["o","^","s"]
+clrs=[(88,0,0)./255,(165,77,21)./255,(237,197,141)./255]
+PyPlot.rc("ytick", labelsize=9, left=true, right=true, direction="in")
+PyPlot.rc("xtick", labelsize=9, top=true, bottom=true, direction="in")
+fig,ax=subplots(figsize=(0.725*8.6cm,0.55*8.6cm))
+for j in eachindex(Jv)
+    data=Vector{Vector{Float64}}(undef,3)
+    for i in eachindex(lbls)
+        f = open(dir1*"Fig3d_J="*string(Jv[j])*"_"*lbls[i]*".txt") do f
+            readlines(f) |> (s->parse.(Float64, s))
+        end
+        data[i]=f
+    end
+    ax.errorbar(data[1],data[2],yerr=data[3],marker=mrkrs[j],fmt=" ",
+        capsize=3,color=clrs[j])
+end
+ax.set_yscale("log"); ax.set_ylim([0.35,80]); ax.set_xlim([0,0.7])
+ax.set_xlabel(L"$\gamma/J$"); ax.set_ylabel(L"$\Delta t_r(\omega_r^{-1})$")
+ax.legend([L"$0.4$",L"$0.5$",L"$0.6$"],title=L"$J/\hbar\omega_r$",ncol=2,
+    handletextpad=0.05,columnspacing=0.5,frameon=false,fontsize=9)
+ax.plot([0,0.85],10 .^(2.7*[0,0.85]).- 0.45,"--",color=clrs[3])
+display(fig); fig.savefig("RelaxationTime.pdf",format="pdf",bbox_inches="tight")
