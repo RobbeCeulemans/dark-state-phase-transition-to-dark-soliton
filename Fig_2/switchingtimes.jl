@@ -83,4 +83,4 @@ axG1.set_xlabel(L"$J/\gamma$",fontsize=9,labelpad=0.5); axG2.set_xlabel(L"$J/\ga
 axG1.set_ylabel(L"$\lambda/\gamma$",fontsize=9,labelpad=-3.0)
 axG1.text(0.14, 0.09, L"$\rm{(b)}$", fontsize=10, horizontalalignment="center", verticalalignment="center", transform=axG1.transAxes)
 axG2.text(0.14, 0.09, L"$\rm{(c)}$", fontsize=10, horizontalalignment="center", verticalalignment="center", transform=axG2.transAxes)
-display(figG); figG.savefig("ClosingGap.pdf",format="pdf",bbox_inches="tight")
+display(figG); figG.savefig(joinpath(@__DIR__,"ClosingGap.pdf"),format="pdf",bbox_inches="tight")

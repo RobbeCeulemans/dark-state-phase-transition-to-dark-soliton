@@ -1,5 +1,14 @@
 # -- TWA data for phasediagrams --
-Fig_4/twa_data/
+Fig_4/3d_twa_data/
 
 # -- Critical loss data --
 Fig_2/critical_loss_data
+
+# -- Keep outputted figures only locally --
+Fig_2/CriticalLoss.pdf
+Fig_2/ClosingGap.pdf
+Fig_3/Spatial_Phase_Profile.pdf
+Fig_3/Relaxation.pdf
+Fig_3/RelaxationTime.pdf
+Fig_4/PhaseDiagram3D.pdf
+Fig_4/PhaseDiagram_L70.pdf

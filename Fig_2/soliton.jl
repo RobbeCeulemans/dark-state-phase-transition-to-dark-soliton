@@ -44,4 +44,4 @@ axγ.set_ylabel(L"$\mathrm{max}(\mathrm{Im}[\omega_l])/U$"); axγ.set_xlabel(L"$
 axγ.set_xlim([0.2,13]); axγ.set_xscale("log")
 
 axγ.legend(frameon=false,loc="upper right",handlelength=1.1,handletextpad=0.4)
-display(figγ); figγ.savefig("CriticalLoss.pdf",format="pdf",bbox_inches="tight")
+display(figγ); figγ.savefig(joinpath(@__DIR__,"CriticalLoss.pdf"),format="pdf",bbox_inches="tight")
