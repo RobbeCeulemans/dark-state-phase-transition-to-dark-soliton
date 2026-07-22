@@ -3,7 +3,7 @@ gspec=pyimport("matplotlib.gridspec")
 #########################################################################################
 # This script produces two phase-diagram figures from TWA simulation data:
 #   1) "Phase diagram: mirror vs soliton" -> Figure 4(a) and 4(b) (main text)
-#   2) "Phase diagram: supplemental"      -> Figure E1 (Appendix E)
+#   2) "Phase diagram: supplemental"      -> Figure E1 (a) and (b) (Appendix E)
 # Both blocks follow the same pattern: load the TWA data for a set of (gamma, J)
 # points, compute the population-difference order parameter, then plot it as a
 # two-panel colormesh with the experimental phase boundary overlaid.
@@ -30,8 +30,8 @@ lightred=(216,165,166)./255
 #########################################################################################
 # Phase diagram: mirror vs soliton (Figure 4a and 4b)
 #########################################################################################
-dirM=joinpath(@__DIR__,"3d_twa_data/PhaseDiagram_mirror/")
-dirS=joinpath(@__DIR__,"3d_twa_data/PhaseDiagram_sol/")
+dirM=joinpath(@__DIR__,"..","darkstatephase_data/fig4_3d_twa/PhaseDiagram_mirror/")
+dirS=joinpath(@__DIR__,"..","darkstatephase_data/fig4_3d_twa/PhaseDiagram_sol/")
 dirs=[dirS;dirM]; Jdim=40
 nms=["A2D_RelaxG";"A2Dm_RelaxG"]; Glevel=[1,3,5,7,10,15,20,25,30,40,50]; ΔN=zeros(Float64,Jdim,size(Glevel,1),2)
 γvec=zeros(Float64,size(Glevel,1),2); Jvec=zeros(Float64,Jdim,2); Nf=ones(Float64,Jdim,2)
@@ -73,7 +73,7 @@ spec=gspec.GridSpec(ncols=2, nrows=1, wspace=0.08)
 fig=figure(figsize=(1.1*8.6*cm,0.65*8.6*cm))
 
 # ----- Experimental phase boundary (overlaid on both panels) -----
-varsEx=matread(joinpath(@__DIR__,"3d_twa_data/ExpData.mat"))
+varsEx=matread(joinpath(@__DIR__,"..","darkstatephase_data/fig4_3d_twa/ExpData.mat"))
 Xlb=varsEx["Xlb"][:]; Ylb=varsEx["Ylb"][:]; ΔXlb=varsEx["DeltaXlb"][:]; ΔYlb=varsEx["DeltaYlb"][:]
 Xub=varsEx["Xub"][:]; Yub=varsEx["Yub"][:]; ΔXub=varsEx["DeltaXub"][:]; ΔYub=varsEx["DeltaYub"][:]
 Xftub=varsEx["Xftub"][:]; Yftub=varsEx["Yftub"][:]
@@ -120,9 +120,9 @@ cb.ax.xaxis.set_label_coords(1.13,0.25)
 display(fig); fig.savefig(joinpath(@__DIR__,"PhaseDiagram3D.pdf"),format="pdf",bbox_inches="tight")
 
 #########################################################################################
-# Phase diagram: supplemental (Figure E1, Appendix E)
+# Phase diagram: supplemental (Figure E1 (a) and (b), Appendix E)
 #########################################################################################
-dir2=joinpath(@__DIR__,"3d_twa_data/PhaseDiagram_L70/")
+dir2=joinpath(@__DIR__,"..","darkstatephase_data/fig4_3d_twa/PhaseDiagram_L70/")
 nms=[dir2*"A2D_N1p5_RelaxG";dir2*"A2D_N2_RelaxG"];
 Jdim=30; Glevel=[1,3,5,7,10,12,15,17,20]; ΔN=zeros(Float64,Jdim,size(Glevel,1),2)
 γvec=zeros(Float64,size(Glevel,1),2); Jvec=zeros(Float64,Jdim,2); Nf=ones(Float64,Jdim,2)
@@ -162,7 +162,7 @@ spec=gspec.GridSpec(ncols=2, nrows=1, wspace=0.08)
 fig=figure(figsize=(1.1*8.6*cm,0.65*8.6*cm))
 
 # ----- Experimental phase boundary (overlaid on both panels) -----
-varsEx=matread(joinpath(@__DIR__,"3d_twa_data/ExpData.mat"))
+varsEx=matread(joinpath(@__DIR__,"..","darkstatephase_data/fig4_3d_twa/ExpData.mat"))
 Xlb=varsEx["Xlb"][:]; Ylb=varsEx["Ylb"][:]; ΔXlb=varsEx["DeltaXlb"][:]; ΔYlb=varsEx["DeltaYlb"][:]
 Xub=varsEx["Xub"][:]; Yub=varsEx["Yub"][:]; ΔXub=varsEx["DeltaXub"][:]; ΔYub=varsEx["DeltaYub"][:]
 Xftub=varsEx["Xftub"][:]; Yftub=varsEx["Yftub"][:]

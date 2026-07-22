@@ -16,7 +16,7 @@ PyPlot.rc("lines",linewidth=1.5,markersize=4)
 # Critical slowing down - normal vs soliton (Figure 2b and 2c)
 #########################################################################################
 clr_m=(165,77,21)./255; clr_s=(41,120,120)./255
-dir=joinpath(@__DIR__,"critical_loss_data/")
+dir=joinpath(@__DIR__,"..","darkstatephase_data/fig2_critical_loss/")
 
 # Data files for the two gamma levels (G1, G3), each with a mirror (_m) and soliton (_s) run.
 n1_m="A0Dm_ClosingGapG1.mat"; n1_s="A0D_ClosingGapG1.mat"

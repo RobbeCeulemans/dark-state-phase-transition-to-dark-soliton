@@ -15,7 +15,7 @@ PyPlot.rc("lines",linewidth=1.5,markersize=4)
 #########################################################################################
 # Stabilisation through losses (Figure B1, Appendix B)
 #########################################################################################
-dir=joinpath(@__DIR__,"critical_loss_data/")
+dir=joinpath(@__DIR__,"..","darkstatephase_data/fig2_critical_loss/")
 varA=matread(dir*"A0D_CriticalLoss2.mat"); varT=matread(dir*"T0D_CriticalLoss3.mat")
 ΩA=varA["Omega"]; GvecA=varA["Gvec"]; JvecA=varA["Jvec"]; U=varA["U"]
 ΩT=varT["Omega"]; GvecT=varT["Gvec"]

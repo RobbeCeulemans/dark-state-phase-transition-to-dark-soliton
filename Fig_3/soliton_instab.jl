@@ -22,18 +22,17 @@ cm=1/2.54
 #########################################################################################
 # Formation & decay of the phase profile (Figure 3a and 3b)
 #########################################################################################
-dir1=joinpath(@__DIR__,"data_soliton_dynamics/") # shared data root, reused by all three figures below
+dir=joinpath(@__DIR__,"..","darkstatephase_data/fig3_soliton_dynamics/") # shared data root, reused by all three figures below
 custom_cmap = matplotlib.colors.LinearSegmentedColormap.from_list("custom",[(88, 0, 0)./255, (165, 77, 21)./255, (237, 197, 141)./255, (255, 255, 224)./255, (185, 214, 199)./255, (41, 120, 120)./255, (0, 50, 51)./255])
 
 spec=gspec.GridSpec(nrows=2,ncols=1,hspace=0.11)
 fig=figure(figsize=(0.46*8.6*cm,0.775*8.6*cm))
 
 # ----- Panel (a): formation -----
-dir2=joinpath(@__DIR__,"soliton_attractor/")
 Data=Vector{Matrix{Float64}}(undef,3)
-lbls=["phase","spacegrid_traj","timegrid"]
+lbls=["phase","spacegrid","timegrid"]
 for i ∈ eachindex(lbls)
-    f = readdlm(dir2*"Fig3c_"*lbls[i]*"10.txt")
+    f = readdlm(dir*"Fig3a_"*lbls[i]*".txt")
     Data[i]=f
 end
 
@@ -53,7 +52,7 @@ ax2.set_yticks([0,30,60])
 Data=Vector{Matrix{Float64}}(undef,3)
 lbls=["phase","spacegrid","timegrid"]
 for i ∈ eachindex(lbls)
-    f = readdlm(dir1*"Fig3c_"*lbls[i]*"1.txt")
+    f = readdlm(dir*"Fig3b_"*lbls[i]*"1.txt")
     Data[i]=f
 end
 
@@ -85,9 +84,9 @@ Data_b=Vector{Matrix{Float64}}(undef,4)
 lbls_a=["Phase_times","Phase","Density_times","Density"]
 lbls_b=["j=1_Current_times","j=1_Current","j=-1_Current_times","j=-1_Current"]
 for i ∈ eachindex(lbls_a)
-    f = readdlm(dir1*"Fig3a_"*lbls_a[i]*".txt")
+    f = readdlm(dir*"Fig3c_"*lbls_a[i]*".txt")
     Data_a[i]=f
-    g = readdlm(dir1*"Fig3b_"*lbls_b[i]*".txt")
+    g = readdlm(dir*"Fig3d_"*lbls_b[i]*".txt")
     Data_b[i]=g
 end
 
@@ -133,7 +132,7 @@ fig,ax=subplots(figsize=(0.725*8.6cm,0.55*8.6cm))
 for j in eachindex(Jv)
     data=Vector{Vector{Float64}}(undef,3)
     for i in eachindex(lbls)
-        f = open(dir1*"Fig3d_J="*string(Jv[j])*"_"*lbls[i]*".txt") do f
+        f = open(dir*"FigB2_J="*string(Jv[j])*"_"*lbls[i]*".txt") do f
             readlines(f) |> (s->parse.(Float64, s))
         end
         data[i]=f
